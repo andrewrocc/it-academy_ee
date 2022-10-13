@@ -1,5 +1,8 @@
 package my.first.dao;
 
+import org.junit.Test;
+import org.junit.After;
+import org.junit.Before;
 import lombok.SneakyThrows;
 import org.junit.BeforeClass;
 import my.first.model.ProductInfo;
@@ -48,17 +51,17 @@ public class ProductInfoDaoImplTest {
                 .build();
     }
 
-    @org.junit.Before
+    @Before
     public void setUp() throws Exception {
         targetObject = new ProductInfoDaoImpl(testMysqlJdbcDataSource, testSessionFactory);
     }
 
-    @org.junit.After
+    @After
     public void tearDown() {
         targetObject = null;
     }
 
-    @org.junit.Test
+    @Test
     @SneakyThrows
     public void create() {
         //given
@@ -84,7 +87,7 @@ public class ProductInfoDaoImplTest {
         conn.close();
     }
 
-    @org.junit.Test
+    @Test
     @SneakyThrows
     public void readAll() {
         //given
@@ -100,11 +103,11 @@ public class ProductInfoDaoImplTest {
         DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
-    @org.junit.Test
+    @Test
     public void update() {
     }
 
-    @org.junit.Test
+    @Test
     public void delete() {
     }
 }

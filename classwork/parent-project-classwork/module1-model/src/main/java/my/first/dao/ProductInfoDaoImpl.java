@@ -30,6 +30,7 @@ public class ProductInfoDaoImpl implements ProductInfoDao {
         this.sessionFactory = sessionFactory;
     }
 
+    // hibernate
     @Override
     public void create(ProductInfo productInfo) {
         Transaction tx = null;
@@ -43,6 +44,7 @@ public class ProductInfoDaoImpl implements ProductInfoDao {
         }
     }
 
+    // jdbc
     @Override
     public List<ProductInfo> readAll() {
         List<ProductInfo> products = new ArrayList<>();
