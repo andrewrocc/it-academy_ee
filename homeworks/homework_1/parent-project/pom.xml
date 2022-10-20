@@ -24,6 +24,46 @@
                 <module>module1</module>
                 <module>module2</module>
                 <module>module3</module>
+                <module>task_8</module>
+                <module>task_9</module>
+                <module>task_10</module>
+                <module>task_11</module>
+                <module>task_12</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>task_8</id>
+            <modules>
+                <module>task_8</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>task_9</id>
+            <modules>
+                <module>task_9</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>task_10</id>
+            <modules>
+                <module>task_10</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>task_11</id>
+            <modules>
+                <module>task_11</module>
+            </modules>
+        </profile>
+
+        <profile>
+            <id>task_12</id>
+            <modules>
+                <module>task_12</module>
             </modules>
         </profile>
     </profiles>
@@ -41,6 +81,13 @@
                 <artifactId>junit</artifactId>
                 <version>4.13.2</version>
                 <scope>test</scope>
+            </dependency>
+
+            <dependency>
+                <groupId>javax.servlet</groupId>
+                <artifactId>javax.servlet-api</artifactId>
+                <version>4.0.0</version>
+                <scope>provided</scope>
             </dependency>
         </dependencies>
     </dependencyManagement>
