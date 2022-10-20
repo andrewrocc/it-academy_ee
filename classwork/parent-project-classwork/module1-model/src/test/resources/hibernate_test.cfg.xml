@@ -25,5 +25,9 @@
 
         <!-- Drop and re-create the database schema on startup -->
 <!--        <property name="hbm2ddl.auto">create</property>-->
+
+<!--        For mapping with annotations-->
+<!--        <mapping class="my.first.model.ProductInfo"/>-->
+<!--        <mapping class="my.first.model.Employee"/>-->
     </session-factory>
 </hibernate-configuration>
