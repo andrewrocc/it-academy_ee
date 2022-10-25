@@ -13,17 +13,17 @@
         <profile>
             <id>backend</id>
             <modules>
-                <module>module1-model</module>
-                <module>module3-service</module>
+                <module>module1</module>
+                <module>module3</module>
             </modules>
         </profile>
 
         <profile>
             <id>all-classwork</id>
             <modules>
-                <module>module1-model</module>
-                <module>module2-web</module>
-                <module>module3-service</module>
+                <module>module1</module>
+                <module>module2</module>
+                <module>module3</module>
             </modules>
         </profile>
     </profiles>

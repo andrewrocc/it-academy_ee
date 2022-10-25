@@ -11,19 +11,8 @@
 
     <profiles>
         <profile>
-            <id>backend</id>
-            <modules>
-                <module>module1</module>
-                <module>module3</module>
-            </modules>
-        </profile>
-
-        <profile>
             <id>all</id>
             <modules>
-                <module>module1</module>
-                <module>module2</module>
-                <module>module3</module>
                 <module>task_8</module>
                 <module>task_9</module>
                 <module>task_10</module>
