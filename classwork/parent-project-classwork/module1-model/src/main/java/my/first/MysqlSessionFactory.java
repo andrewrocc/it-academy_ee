@@ -1,5 +1,6 @@
 package my.first;
 
+import my.first.model.Department;
 import my.first.model.EmployeeDetail;
 import my.first.model.Employee;
 import my.first.model.ProductInfo;
@@ -35,6 +36,8 @@ public class MysqlSessionFactory {
         Metadata metadata = new MetadataSources(standardRegistry)
                 .addAnnotatedClass(ProductInfo.class)
                 .addAnnotatedClass(Employee.class)
+                .addAnnotatedClass(EmployeeDetail.class)
+                .addAnnotatedClass(Department.class)
                 .getMetadataBuilder()
                 .build();
 

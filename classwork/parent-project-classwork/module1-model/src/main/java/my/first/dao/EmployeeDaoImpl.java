@@ -1,6 +1,8 @@
 package my.first.dao;
 
+import org.hibernate.Session;
 import my.first.model.Employee;
+import org.hibernate.Transaction;
 import my.first.MysqlSessionFactory;
 import org.hibernate.SessionFactory;
 
@@ -19,7 +21,15 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void create(Employee em) {
-
+        Transaction tr = null;
+        try (Session sess = sessionFactory.openSession()) {
+            tr = sess.beginTransaction();
+            sess.saveOrUpdate(em);
+            tr.commit();
+        } catch (Exception ex) {
+            if (tr != null) tr.rollback();
+            throw ex;
+        }
     }
 
     @Override
@@ -29,11 +39,19 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void update(Employee em) {
-
+        create(em);
     }
 
     @Override
     public void delete(Employee em) {
-
+        Transaction tr = null;
+        try (Session sess = sessionFactory.openSession()) {
+            tr = sess.beginTransaction();
+            sess.delete(em);
+            tr.commit();
+        } catch (Exception ex) {
+            if (tr != null) tr.rollback();
+            throw ex;
+        }
     }
 }

@@ -17,7 +17,7 @@ public class ProductInfo implements Serializable {
     @GenericGenerator(name = "increment", strategy = "org.hibernate.id.IncrementGenerator")
     private int id;
 
-    @Column(name = "product_name")
+    @Column(name = "name")
     private String name;
 
     @Column

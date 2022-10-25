@@ -1,5 +1,6 @@
 package my.first.dao;
 
+import my.first.model.Department;
 import org.junit.*;
 import lombok.SneakyThrows;
 import my.first.model.Employee;
@@ -46,6 +47,7 @@ public class EmployeeDaoImplTest {
         Metadata metadata = new MetadataSources( standardRegistry )
                 .addAnnotatedClass( Employee.class )
                 .addAnnotatedClass( EmployeeDetail.class )
+                .addAnnotatedClass( Department.class )
                 .getMetadataBuilder()
                 .build();
         testSessionFactory = metadata.getSessionFactoryBuilder()
@@ -65,32 +67,47 @@ public class EmployeeDaoImplTest {
     @Test
     @SneakyThrows
     public void create() {
-        //given
+        //Given
         Connection conn = testMysqlJdbcDataSource.getConnection();
-        ResultSet set = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
-        set.next();
-        int initialSize = set.getInt(1);
+
+        IDataSet dataSet = new FlatXmlDataSetBuilder()
+                .build(EmployeeDaoImpl.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+        DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
+
+        ResultSet rs = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
+        rs.next();
+        int initialSize = rs.getInt(1);
         assertEquals(0, initialSize);
 
-        Employee em = new Employee();
-        em.setFirstName("Sasha");
-        EmployeeDetail em_d = new EmployeeDetail();
-        em_d.setCountry("BELARUS");
+        Employee employee = new Employee();
+        employee.setFirstName("Sasha");
 
-        em.setEmployeeDetail(em_d);
-        em_d.setEmployee(em);
+        EmployeeDetail employeeDetail = new EmployeeDetail();
+        employeeDetail.setCountry("BELARUS");
 
-        //when
-        targetObject.create(em);
+        Department department = new Department();
+        department.setId(1);
+        department.setDepartmentName("TEST_NAME");
 
-        //then
-        set = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
-        set.next();
-        int actualSize = set.getInt(1);
+        employee.setEmployeeDetail(employeeDetail);
+        employee.setDepartment(department);
+        employeeDetail.setEmployee(employee);
+
+        //When
+        targetObject.create(employee);
+
+        //Then
+        rs = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
+        rs.next();
+        int actualSize = rs.getInt(1);
         assertEquals(1, actualSize);
+        conn.createStatement().executeUpdate("SET FOREIGN_KEY_CHECKS = 0;");
         conn.createStatement().executeUpdate("truncate table t_employeedetail;");
-        conn.createStatement().executeUpdate("truncate table t_employee");
+        conn.createStatement().executeUpdate("truncate table t_employee;");
+        conn.createStatement().executeUpdate("SET FOREIGN_KEY_CHECKS = 1;");
         conn.close();
+
+        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
     @Test
@@ -114,6 +131,23 @@ public class EmployeeDaoImplTest {
     }
 
     @Test
+    @SneakyThrows
     public void delete() {
+        //given
+        IDataSet dataSet = new FlatXmlDataSetBuilder()
+                .build(EmployeeDaoImpl.class.getResourceAsStream("EmployeeDetailTest.xml"));
+        DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
+
+        //when
+        Employee employee = targetObject.findById(101);
+        assertNotNull(employee);
+        targetObject.delete(employee);
+
+        //then
+        Connection connection = testMysqlJdbcDataSource.getConnection();
+        ResultSet rs = connection.createStatement().executeQuery("select count(*) from t_employeedetail;");
+        rs.next();
+        int actualSize = rs.getInt(1);
+        assertEquals(0, actualSize);
     }
 }

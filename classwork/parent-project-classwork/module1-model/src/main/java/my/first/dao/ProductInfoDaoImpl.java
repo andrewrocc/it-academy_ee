@@ -55,7 +55,7 @@ public class ProductInfoDaoImpl implements ProductInfoDao {
             while (resultSet.next()) {
                 final ProductInfo productInfo = new ProductInfo();
                 productInfo.setId(resultSet.getInt("id"));
-                productInfo.setName(resultSet.getString("product_name"));   //name
+                productInfo.setName(resultSet.getString("name"));   //name
                 productInfo.setPrice(resultSet.getDouble("price"));
                 products.add(productInfo);
             }

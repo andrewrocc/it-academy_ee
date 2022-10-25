@@ -1,10 +1,7 @@
 package my.first.dao;
 
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
+import org.junit.*;
 import lombok.SneakyThrows;
-import org.junit.BeforeClass;
 import my.first.model.ProductInfo;
 import org.hibernate.boot.Metadata;
 import org.dbunit.dataset.IDataSet;
@@ -64,7 +61,7 @@ public class ProductInfoDaoImplTest {
     @Test
     @SneakyThrows
     public void create() {
-        //given
+        //Given
         Connection conn = testMysqlJdbcDataSource.getConnection();
         ResultSet rs = conn.createStatement().executeQuery("select count(*) from product_info;");
         rs.next();
@@ -75,10 +72,10 @@ public class ProductInfoDaoImplTest {
         productInfo.setName("test");
         productInfo.setPrice(111.222);
 
-        //when
+        //When
         targetObject.create(productInfo);
 
-        //then
+        //Then
         rs = conn.createStatement().executeQuery("select count(*) from product_info;");
         rs.next();
         int actualSize = rs.getInt(1);
