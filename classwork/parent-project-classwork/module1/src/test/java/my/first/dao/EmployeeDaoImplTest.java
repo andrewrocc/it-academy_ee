@@ -1,6 +1,7 @@
 package my.first.dao;
 
 import my.first.model.Department;
+import my.first.model.Meeting;
 import org.junit.*;
 import lombok.SneakyThrows;
 import my.first.model.Employee;
@@ -22,45 +23,17 @@ import java.sql.ResultSet;
 
 import static org.junit.Assert.*;
 
-public class EmployeeDaoImplTest {
-
-    // JDBC data source
-    static MysqlJdbcDataSource testMysqlJdbcDataSource;
-
-    // DBUnit connection
-    static IDatabaseConnection iDatabaseConnection;
-
-    // Hibernate session factory
-    static SessionFactory testSessionFactory;
+public class EmployeeDaoImplTest extends BaseDaoTest {
 
     EmployeeDaoImpl targetObject;
 
-    @BeforeClass
-    @SneakyThrows
-    public static void init() {
-        testMysqlJdbcDataSource = new MysqlJdbcDataSource("eshop_test.jdbc.properties");
-        iDatabaseConnection = new MySqlConnection(testMysqlJdbcDataSource.getConnection(), "eshop_test");
-
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-                .configure("hibernate_test.cfg.xml")
-                .build();
-        Metadata metadata = new MetadataSources( standardRegistry )
-                .addAnnotatedClass( Employee.class )
-                .addAnnotatedClass( EmployeeDetail.class )
-                .addAnnotatedClass( Department.class )
-                .getMetadataBuilder()
-                .build();
-        testSessionFactory = metadata.getSessionFactoryBuilder()
-                .build();
-    }
-
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         targetObject = new EmployeeDaoImpl(testSessionFactory);
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         targetObject = null;
     }
 
@@ -70,9 +43,9 @@ public class EmployeeDaoImplTest {
         //Given
         Connection conn = testMysqlJdbcDataSource.getConnection();
 
-        IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(EmployeeDaoImpl.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
-        DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
+        IDataSet departmentDataSet = new FlatXmlDataSetBuilder()
+                .build(EmployeeDaoImplTest.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+        DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, departmentDataSet);
 
         ResultSet rs = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
         rs.next();
@@ -87,11 +60,11 @@ public class EmployeeDaoImplTest {
 
         Department department = new Department();
         department.setId(1);
-        department.setDepartmentName("TEST_NAME");
+        department.setDepartmentName("TestName");
 
         employee.setEmployeeDetail(employeeDetail);
-        employee.setDepartment(department);
         employeeDetail.setEmployee(employee);
+        employee.setDepartment(department);
 
         //When
         targetObject.create(employee);
@@ -107,45 +80,47 @@ public class EmployeeDaoImplTest {
         conn.createStatement().executeUpdate("SET FOREIGN_KEY_CHECKS = 1;");
         conn.close();
 
-        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
+        DatabaseOperation.DELETE.execute(iDatabaseConnection, departmentDataSet);
     }
 
     @Test
     @SneakyThrows
     public void findById() {
-        //given
+        //Given
         IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(EmployeeDaoImpl.class.getResourceAsStream("EmployeeDetailTest.xml"));
+                .build(EmployeeDaoImplTest.class.getResourceAsStream("EmployeeDaoImplTest.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
 
-        //when
-        final Employee em = targetObject.findById(101);
+        //When
+        Employee employee = targetObject.findById(101);
 
-        //then
-        assertEquals("+375296101011", em.getCellPhone());
+        //Then
+        assertEquals("+375296101011", employee.getCellPhone());
+        assertEquals("Ivan", employee.getFirstName());
+        assertEquals("Petrov", employee.getLastName());
+        assertEquals("1977-05-24", employee.getBirthDate().toString());
+        assertEquals("MINSK", employee.getEmployeeDetail().getCity());
+
         DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
-    @Test
-    public void update() {
-    }
 
     @Test
     @SneakyThrows
     public void delete() {
-        //given
+        //Given
         IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(EmployeeDaoImpl.class.getResourceAsStream("EmployeeDetailTest.xml"));
+                .build(EmployeeDaoImplTest.class.getResourceAsStream("EmployeeDaoImplTest.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
 
-        //when
+        //When
         Employee employee = targetObject.findById(101);
         assertNotNull(employee);
         targetObject.delete(employee);
 
-        //then
-        Connection connection = testMysqlJdbcDataSource.getConnection();
-        ResultSet rs = connection.createStatement().executeQuery("select count(*) from t_employeedetail;");
+        //Then
+        Connection conn = testMysqlJdbcDataSource.getConnection();
+        ResultSet rs = conn.createStatement().executeQuery("select count(*) from t_employeedetail;");
         rs.next();
         int actualSize = rs.getInt(1);
         assertEquals(0, actualSize);

@@ -8,45 +8,48 @@
     <changeSet id="1" author="andrewrocc">
         <sql>
             create table if not exists product_info(
-            id int not null primary key,
-            name varchar(255),
-            price float(10, 2));
+                id int not null primary key,
+                name varchar(255),
+                price float(10, 2)
+            );
         </sql>
     </changeSet>
 
     <changeSet id="2" author="andrewrocc">
         <sql>
             CREATE TABLE IF NOT EXISTS t_employee (
-            F_ID BIGINT(19) NOT NULL,
-            BIRTH_DATE DATE NULL,
-            CELL_PHONE VARCHAR(45) NULL,
-            FIRSTNAME VARCHAR(255) NULL,
-            LASTNAME VARCHAR(255) NULL,
-            PRIMARY KEY (F_ID));
+                F_ID BIGINT(19) NOT NULL,
+                BIRTH_DATE DATE NULL,
+                CELL_PHONE VARCHAR(45) NULL,
+                FIRSTNAME VARCHAR(255) NULL,
+                LASTNAME VARCHAR(255) NULL,
+                PRIMARY KEY (F_ID)
+            );
         </sql>
     </changeSet>
 
     <changeSet id="3" author="andrewrocc">
         <sql>
-            CREATE TABLE  IF NOT EXISTS t_employeedetail (
-            F_EMPLOYEEID BIGINT(19) NOT NULL,
-            CITY VARCHAR(45) NULL,
-            COUNTRY VARCHAR(45) NULL,
-            STATE VARCHAR(45) NULL,
-            STREET VARCHAR(255) NULL,
-            PRIMARY KEY (F_EMPLOYEEID),
-            CONSTRAINT F_EMPLOYEEID
-            FOREIGN KEY (F_EMPLOYEEID)
-            REFERENCES t_employee (F_ID)
-            ON DELETE CASCADE
-            ON UPDATE CASCADE);
+            CREATE TABLE IF NOT EXISTS t_employeedetail (
+                F_EMPLOYEEID BIGINT(19) NOT NULL,
+                CITY VARCHAR(45) NULL,
+                COUNTRY VARCHAR(45) NULL,
+                STATE VARCHAR(45) NULL,
+                STREET VARCHAR(255) NULL,
+                PRIMARY KEY (F_EMPLOYEEID),
+                CONSTRAINT F_EMPLOYEEID
+                FOREIGN KEY (F_EMPLOYEEID)
+                REFERENCES t_employee (F_ID)
+                ON DELETE CASCADE
+                ON UPDATE CASCADE
+            );
         </sql>
     </changeSet>
 
     <changeSet id="4" author="andrewrocc">
         <sql>
-            CREATE TABLE t_employee_seq (
-            next_val INT UNSIGNED PRIMARY KEY NOT NULL
+            CREATE TABLE IF NOT EXISTS t_employee_seq (
+                next_val INT UNSIGNED PRIMARY KEY NOT NULL
             );
             INSERT INTO t_employee_seq VALUES (0);
         </sql>
@@ -55,13 +58,35 @@
     <changeSet id="5" author="andrewrocc">
         <sql>
             CREATE TABLE IF NOT EXISTS t_department (
-            F_DEPARTMENTID BIGINT(19) UNSIGNED PRIMARY KEY NOT NULL,
-            F_DEPARTMENTNAME VARCHAR(255) NOT NULL
+                F_DEPARTMENTID BIGINT(19) UNSIGNED PRIMARY KEY NOT NULL,
+                F_DEPARTMENTNAME VARCHAR(255) NOT NULL
             );
 
             ALTER TABLE t_employee ADD F_DEPARTMENTID BIGINT(19) UNSIGNED NOT NULL;
             ALTER TABLE t_employee ADD CONSTRAINT FK_F_DEPARTMENTID
             FOREIGN KEY (F_DEPARTMENTID) REFERENCES t_department(F_DEPARTMENTID);
+        </sql>
+    </changeSet>
+
+    <changeSet id="6" author="andrewrocc">
+        <sql>
+            CREATE TABLE IF NOT EXISTS t_meeting (
+                F_MEETING_ID BIGINT(19) UNSIGNED PRIMARY KEY NOT NULL,
+                F_MEETINGDATE DATETIME,
+                F_SUBJECT VARCHAR(255) NOT NULL
+            );
+
+            CREATE TABLE IF NOT EXISTS t_meeting_seq (
+                next_val INT UNSIGNED PRIMARY KEY NOT NULL
+            );
+            INSERT INTO t_meeting_seq VALUES (0);
+
+            CREATE TABLE IF NOT EXISTS t_employee_meeting (
+                F_EMPLOYEEID BIGINT(19) NOT NULL,
+                F_MEETING_ID BIGINT(19) UNSIGNED NOT NULL,
+                CONSTRAINT F_EMPLOYEE_ID FOREIGN KEY (F_EMPLOYEEID) REFERENCES t_employee (F_ID),
+                CONSTRAINT F_MEETINGID FOREIGN KEY (F_MEETING_ID) REFERENCES t_meeting (F_MEETING_ID)
+            );
         </sql>
     </changeSet>
 

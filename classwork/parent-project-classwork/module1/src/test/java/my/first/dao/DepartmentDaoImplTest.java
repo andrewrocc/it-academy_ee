@@ -33,25 +33,25 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     @Test
     @SneakyThrows
     public void create() {
-        //given
-        Connection connection = testMysqlJdbcDataSource.getConnection();
-        ResultSet rs = connection.createStatement().executeQuery("select count(*) from t_department");
+        //Given
+        Connection conn = testMysqlJdbcDataSource.getConnection();
+        ResultSet rs = conn.createStatement().executeQuery("select count(*) from t_department;");
         rs.next();
         int initialSize = rs.getInt(1);
         assertEquals(0, initialSize);
-
         Department department = new Department();
-        department.setDepartmentName("Test");
+        department.setDepartmentName("TestDepartment");
 
-        //when
+        //When
         targetObject.create(department);
 
-        //then
-        rs = connection.createStatement().executeQuery("select count(*) from t_department");
+        //Then
+        rs = conn.createStatement().executeQuery("select count(*) from t_department;");
         rs.next();
         int actualSize = rs.getInt(1);
         assertEquals(1, actualSize);
-        connection.createStatement().executeUpdate("delete from t_department");
+        conn.createStatement().executeUpdate("delete from t_department;");
+        conn.close();
     }
 
     @Test

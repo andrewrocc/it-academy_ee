@@ -47,7 +47,8 @@ public class EmployeeDaoImpl implements EmployeeDao {
         Transaction tr = null;
         try (Session sess = sessionFactory.openSession()) {
             tr = sess.beginTransaction();
-            sess.delete(em);
+            Employee loadedEmployee = sess.load(Employee.class, em.getId());
+            sess.delete(loadedEmployee);
             tr.commit();
         } catch (Exception ex) {
             if (tr != null) tr.rollback();
