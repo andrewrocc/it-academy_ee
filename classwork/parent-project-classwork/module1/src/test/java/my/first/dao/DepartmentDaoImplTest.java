@@ -12,6 +12,7 @@ import org.junit.Test;
 
 import java.sql.Connection;
 import java.sql.ResultSet;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
@@ -26,7 +27,11 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     }
 
     @After
+    @SneakyThrows
     public void tearDown() {
+        Connection conn = testMysqlJdbcDataSource.getConnection();
+        conn.createStatement().executeUpdate("delete from t_department;");
+        conn.close();
         targetObject = null;
     }
 
@@ -50,8 +55,23 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
         rs.next();
         int actualSize = rs.getInt(1);
         assertEquals(1, actualSize);
-        conn.createStatement().executeUpdate("delete from t_department;");
-        conn.close();
+    }
+
+    @Test
+    @SneakyThrows
+    public void findAllDepartmentNames() {
+        //given
+        IDataSet dataSet = new FlatXmlDataSetBuilder()
+                .build(DepartmentDaoImpl.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+        DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
+
+        //when
+        List<String> departmentNames = targetObject.findByAllDepartmentNames();
+
+        //then
+        assertEquals(1, departmentNames.size());
+        assertEquals("Hidden", departmentNames.get(0));
+        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
     @Test
@@ -70,28 +90,24 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     }
 
     @Test
-    @Ignore
+//    @Ignore
     @SneakyThrows
     public void delete() {
         //given
         IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(DepartmentDaoImplTest.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+                .build(EmployeeDaoImplTest.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
 
         //when
-        Department department = targetObject.findById(1);
-        assertNotNull(department);
-        targetObject.delete(department);
+        targetObject.delete(1);
 
         //then
-        Connection connection = testMysqlJdbcDataSource.getConnection();
-        ResultSet rs = connection.createStatement().executeQuery("select count(*) from t_department");
+        ResultSet rs = testMysqlJdbcDataSource.getConnection()
+                .createStatement()
+                .executeQuery("select count(*) from t_department");
         rs.next();
         int actualSize = rs.getInt(1);
-        assertEquals(1, actualSize);
-        connection.createStatement().executeUpdate("delete from t_department");
-        rs.close();
-        connection.close();
+        assertEquals(0, actualSize);
     }
 }
 

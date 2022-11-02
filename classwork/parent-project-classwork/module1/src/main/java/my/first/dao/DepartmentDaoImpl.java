@@ -6,6 +6,8 @@ import my.first.model.Department;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 
+import java.util.List;
+
 public class DepartmentDaoImpl implements DepartmentDao {
 
     private final SessionFactory sessionFactory;
@@ -37,14 +39,29 @@ public class DepartmentDaoImpl implements DepartmentDao {
     }
 
     @Override
+    public List<String> findByAllDepartmentNames() {
+        try (Session session = sessionFactory.openSession()) {
+            String hql_query = "SELECT d.departmentName FROM Department AS d";
+            return session.createQuery(hql_query, String.class).list();
+        }
+    }
+
+    @Override
     public void update(Department dep) {
         create(dep);
     }
 
     @Override
     public void delete(long id) {
-        Department department = sessionFactory.openSession().load(Department.class, id);
-        delete(department);
+        Transaction transaction = null;
+        try (Session session = sessionFactory.openSession()) {
+            transaction = session.beginTransaction();
+            session.createQuery("delete from Department where id=" + id).executeUpdate();
+            transaction.commit();
+        } catch (Exception ex) {
+            if (transaction != null) transaction.rollback();
+            throw ex;
+        }
     }
 
     @Override
