@@ -19,6 +19,7 @@ public class ApplicationRunner {
     private static Connection connection = null;
 
     private static Statement statement = null;
+
     /**
      * before u run this program need to set up initial parameters<p>
      * Example( 101 "Lee Sin" 101 "2022-12-01" 250.0 )<p>
