@@ -12,7 +12,8 @@ public class BrowserInfo extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        final String userAgent = "Приветствую пользователя " + whatTheBrowser(req.getHeader("User-Agent"));
+        String browserType = whatTheBrowser(req.getHeader("User-Agent"));
+        final String userAgent = "Приветствую пользователя ".concat(browserType);
         req.setAttribute("userAgent", userAgent);
         resp.setContentType("text/html");
         getServletContext().getRequestDispatcher("/jsp/browserInfo.jsp").forward(req, resp);

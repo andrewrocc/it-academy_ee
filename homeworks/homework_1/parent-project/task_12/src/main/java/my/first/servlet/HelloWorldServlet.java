@@ -23,24 +23,28 @@ public class HelloWorldServlet extends HttpServlet {
         resp.setContentType("image/jpg");
         counter++;
 
-        //region image/jpg content page
-        int width = 900;
-        int height = 900;
-        BufferedImage image = new BufferedImage(width, height, BufferedImage.TYPE_INT_RGB);
+        BufferedImage image = drawRainbow(req);
+        ServletOutputStream out = resp.getOutputStream();
+        ImageIO.write(image, "jpg", out);
+    }
+
+    private BufferedImage drawRainbow(HttpServletRequest req) {
+        int imageWidth = 900;
+        int imageHeight = 900;
+        BufferedImage image = new BufferedImage(imageWidth, imageHeight, BufferedImage.TYPE_INT_RGB);
         Graphics2D graphics = image.createGraphics();
         graphics.setColor(Color.WHITE);
-        graphics.fillRect(0, 0, width, height);
+        graphics.fillRect(0, 0, imageWidth, imageHeight);
 
-        /*draw the rainbow*/
         int radius = 50;
         final Color VIOLET = new Color(128, 0, 128);
         final Color INDIGO = new Color(0, 191, 255);
-        Color[] colors = { Color.WHITE, Color.WHITE, VIOLET, Color.BLUE, INDIGO,
-                        Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED };
+        Color[] colors = { Color.WHITE, VIOLET, Color.BLUE, INDIGO,
+                Color.GREEN, Color.YELLOW, Color.ORANGE, Color.RED };
         for (int counter = colors.length; counter > 0; counter--) {
             graphics.setColor(colors[counter - 1]);
-            graphics.fillArc(width - counter * radius,
-                    height - counter * radius,
+            graphics.fillArc(imageWidth - counter * radius,
+                    imageHeight - counter * radius,
                     counter * radius * 2, counter * radius * 2, 0, 180);
         }
 
@@ -50,8 +54,6 @@ public class HelloWorldServlet extends HttpServlet {
         graphics.drawString("Request number : " + counter, 50, 170);
         graphics.setFont(new Font("Helvetica", Font.PLAIN, 30));
         graphics.drawString("Session id: " + req.getSession().getId(), 55, 250);
-        ServletOutputStream out = resp.getOutputStream();
-        ImageIO.write(image, "jpg", out);
-        //endregion
+        return image;
     }
 }
