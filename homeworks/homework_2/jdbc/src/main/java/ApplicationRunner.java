@@ -1,10 +1,10 @@
 import tasks.task_4;
 import tasks.task_5;
 import tasks.task_6;
-import task_7.dao.DAOImpl;
+import tasks.task_7.dao.DAOImpl;
 import lombok.SneakyThrows;
-import task_7.model.Expenses;
-import task_7.model.Receiver;
+import tasks.task_7.model.Expenses;
+import tasks.task_7.model.Receiver;
 import jdbc.config.SetupJDBC;
 
 import java.sql.*;
@@ -51,19 +51,34 @@ public class ApplicationRunner {
         SetupJDBC setup = new SetupJDBC();
         connection = setup.getConnection();
 
+        doTask_4(args);
+        doTask_5(args);
+        doTask_6();
+        doTask_7();
+
+        connection.close();
+    }
+
+    private static void doTask_4(String[] args) {
         System.out.println("task 4:");
         new task_4(args, connection);
         printAllReceiver();
         deleteInsertion(args);
+    }
 
+    private static void doTask_5(String[] args) {
         System.out.println("\ntask 5:");
         new task_5(args, connection);
         printAllReceiver();
         deleteInsertion(args);
+    }
 
+    private static void doTask_6() {
         System.out.println("\ntask 6:");
         new task_6(connection);
+    }
 
+    private static void doTask_7() {
         System.out.println("\ntask 7:");
         DAOImpl dao = new DAOImpl();
         Receiver receiver = dao.getReceiver(1);
@@ -74,8 +89,6 @@ public class ApplicationRunner {
         System.out.println("\ngetReceivers: " + Arrays.toString(listReceivers.toArray()).replace("), ", "\"), \n"));
         List<Expenses> listExpenses = dao.getExpenses();
         System.out.println("\ngetExpenses: " + Arrays.toString(listExpenses.toArray()).replace("), ", "\"), \n"));
-
-        connection.close();
     }
 
     private static boolean isValidDateFormat(String date) {

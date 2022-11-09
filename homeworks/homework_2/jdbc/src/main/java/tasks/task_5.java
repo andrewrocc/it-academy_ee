@@ -22,8 +22,7 @@ public class task_5 {
         PreparedStatement statement = connection.prepareStatement(insert_query);
         statement.setInt(1, Integer.parseInt(param[0]));
         statement.setString(2, param[1]);
-        var affectedRow = statement.executeUpdate();
-//        System.out.printf("Affected row %d\n", affectedRow);
+        statement.executeUpdate();
         statement.close();
     }
 
@@ -38,8 +37,7 @@ public class task_5 {
         statement.setDate(2, sqlFormatDate);
         statement.setInt(3, Integer.parseInt(param[0]));
         statement.setDouble(4, Double.parseDouble(param[4]));
-        var affectedRow = statement.executeUpdate();
-//        System.out.printf("Affected row %d\n", affectedRow);
+        statement.executeUpdate();
         statement.close();
     }
 }

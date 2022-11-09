@@ -1,7 +1,7 @@
-package task_7.dao;
+package tasks.task_7.dao;
 
-import task_7.model.Expenses;
-import task_7.model.Receiver;
+import tasks.task_7.model.Expenses;
+import tasks.task_7.model.Receiver;
 
 import java.util.List;
 

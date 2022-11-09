@@ -1,4 +1,4 @@
-package task_7.model;
+package tasks.task_7.model;
 
 import lombok.Data;
 

@@ -19,8 +19,7 @@ public class task_4 {
         int id = Integer.parseInt(param[0]);
         String insert_query = String.format("INSERT INTO receiver (num, name) VALUES (%d, '%s');", id, param[1]);
         Statement statement = connection.createStatement();
-        var affectedRow = statement.executeUpdate(insert_query);
-//        System.out.printf("Affected row %d\n", affectedRow);
+        statement.executeUpdate(insert_query);
         statement.close();
     }
 
@@ -31,8 +30,7 @@ public class task_4 {
         String insert_query = String.format("INSERT INTO expenses (num, paydate, receiver, value) VALUES(%d, '%s', %d, %s)",
                 id, param[3], id_receiver, param[4]);
         Statement statement = connection.createStatement();
-        var affectedRow = statement.executeUpdate(insert_query);
-//        System.out.printf("Affected row %d\n", affectedRow);
+        statement.executeUpdate(insert_query);
         statement.close();
     }
 }
