@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:p="http://www.springframework.org/schema/p"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <!-- bean definitions here -->
+    <bean name="person" class="beans.Person" init-method="init" destroy-method="destroy"
+        p:name="Yulia" p:secondName="Ivanova" p:homeAddress-ref="address">
+        <property name="children">
+            <map>
+                <entry key="1" value-ref="child1" />
+                <entry key="2" value-ref="child2" />
+            </map>
+        </property>
+<!--        <property name="name" value="Yulia"/>-->
+<!--        <property name="secondName" value="Ivanova"/>-->
+<!--        <property name="homeAddress" ref="address"/>-->
+    </bean>
+
+    <bean name="child1" class="beans.Person"
+          p:name="Ivan" p:secondName="Ivanov" p:homeAddress-ref="address">
+    </bean>
+
+    <bean name="child2" class="beans.Person"
+          p:name="Mark" p:secondName="Ivanov" p:homeAddress-ref="address">
+    </bean>
+
+    <bean name="address" class="beans.Address">
+        <constructor-arg type="Long" value="123"/>
+        <property name="phoneNumbers">
+            <list>
+                <value>123123</value>
+                <value>56456</value>
+                <value>123324235</value>
+            </list>
+        </property>
+    </bean>
+
+</beans>

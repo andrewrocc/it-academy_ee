@@ -36,7 +36,7 @@ public class PersonDaoImplTest {
             em.getTransaction().begin();
         }
         em.createQuery("DELETE FROM Person").executeUpdate();
-        entityManagerDaoSynchronize.synchronizeEntityManagerWithDB();
+        entityManagerDaoSynchronize.synchronizeEntityManager();
         em.getEntityManagerFactory().close();
         em.close();
         targetObject = null;
@@ -57,7 +57,7 @@ public class PersonDaoImplTest {
         boolean createResult = targetObject.createEntity(Person.class.getName(), p);
 
         //then
-        entityManagerDaoSynchronize.synchronizeEntityManagerWithDB();
+        entityManagerDaoSynchronize.synchronizeEntityManager();
         long actualSize = (Long) em.createQuery("SELECT count(*) FROM Person").getSingleResult();
         assertEquals(1L, actualSize);
         assertTrue(createResult);
@@ -78,7 +78,7 @@ public class PersonDaoImplTest {
         targetObject.createEntity(p);
 
         //then
-        entityManagerDaoSynchronize.synchronizeEntityManagerWithDB();
+        entityManagerDaoSynchronize.synchronizeEntityManager();
         long actualSize = (Long) em.createQuery("SELECT count(*) FROM Person").getSingleResult();
         assertEquals(2L, actualSize);
     }
@@ -99,7 +99,7 @@ public class PersonDaoImplTest {
         boolean deleteResult = targetObject.deleteEntity(Person.class.getName(), p);
 
         //then
-        entityManagerDaoSynchronize.synchronizeEntityManagerWithDB();
+        entityManagerDaoSynchronize.synchronizeEntityManager();
         long actualSize = (Long) em.createQuery("SELECT count(*) FROM Person").getSingleResult();
         assertEquals(1L, actualSize);
         assertTrue(deleteResult);
@@ -121,7 +121,7 @@ public class PersonDaoImplTest {
         targetObject.deleteEntity(Person.class.getName(), p);
 
         //then
-        entityManagerDaoSynchronize.synchronizeEntityManagerWithDB();
+        entityManagerDaoSynchronize.synchronizeEntityManager();
         long actualSize = (Long) em.createQuery("SELECT count(*) FROM Person").getSingleResult();
         assertEquals(0L, actualSize);
     }
