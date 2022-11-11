@@ -10,7 +10,7 @@ import javax.persistence.EntityManager;
 
 /**
  * did not create separate test class, added this class to
- * @see by/it/task_2/util/PersonDaoImplTest
+ * @see by/it/tasks/task_2/util/PersonDaoImplTest
  */
 public class PersonDaoSynchronizeImpl implements PersonDaoSynchronize {
 
@@ -39,9 +39,9 @@ public class PersonDaoSynchronizeImpl implements PersonDaoSynchronize {
     }
 
     @Override
-    public void synchronizeSessionWithDB(Object obj, @Nullable LockMode lockMode) {
+    public void synchronizeSession(Object obj, @Nullable LockMode lockMode) {
         if (session != null) {
-            if (lockMode != null /* && session.isDirty()*/) {
+            if (lockMode != null) {
                 session.refresh(obj, new LockOptions(lockMode));
             } else {
                 session.refresh(obj);
@@ -58,7 +58,7 @@ public class PersonDaoSynchronizeImpl implements PersonDaoSynchronize {
     }
 
     @Override
-    public void synchronizeEntityManagerWithDB() {
+    public void synchronizeEntityManager() {
         if (em != null && em.isOpen()) {
             if (em.getTransaction().isActive()) {
                 em.getTransaction().commit();

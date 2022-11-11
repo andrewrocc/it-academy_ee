@@ -11,8 +11,8 @@ public class PersonDaoImpl implements PersonDao {
 
     private final PersonDaoSynchronizeImpl sessionDaoSynchronize;
 
-    public PersonDaoImpl() {
-        session = HibernateUtil.getSession();
+    public PersonDaoImpl(Session session) {
+        this.session = session;
         sessionDaoSynchronize = new PersonDaoSynchronizeImpl(session);
     }
 
@@ -22,7 +22,7 @@ public class PersonDaoImpl implements PersonDao {
         session.beginTransaction();
         session.saveOrUpdate(person);
         session.getTransaction().commit();
-        sessionDaoSynchronize.flushAndClearSession();
+        sessionDaoSynchronize.synchronizeSession(person, null);
     }
 
     @Override
@@ -42,7 +42,7 @@ public class PersonDaoImpl implements PersonDao {
         if (deleteP != null) {
             session.delete(deleteP);
             session.getTransaction().commit();
-            sessionDaoSynchronize.flushAndClearSession();
+//            sessionDaoSynchronize.flushAndClearSession();
         }
     }
 }

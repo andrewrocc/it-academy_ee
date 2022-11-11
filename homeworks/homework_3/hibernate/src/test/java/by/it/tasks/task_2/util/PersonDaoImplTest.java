@@ -11,6 +11,9 @@ import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.persister.entity.EntityPersister;
 import org.junit.*;
 
+import javax.persistence.EntityManager;
+import javax.persistence.EntityManagerFactory;
+import javax.persistence.Persistence;
 import java.io.Serializable;
 import java.util.logging.Logger;
 
@@ -21,15 +24,19 @@ public class PersonDaoImplTest {
 
     private static Session session;
 
+    private static EntityManager em;
+
     PersonDaoImpl targetObject;
 
     private final Logger log = Logger.getLogger(PersonDaoImplTest.class.getName());
 
     @Before
     public void setUp() throws Exception {
+        session = HibernateUtil.getSession();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("by.it");
+        em = emf.createEntityManager();
         targetObject = new PersonDaoImpl(session);
         fillDataInDB();
-//        session = !session.isOpen() ? HibernateUtil.getSession() : session;
     }
 
     public void fillDataInDB() {
@@ -43,25 +50,25 @@ public class PersonDaoImplTest {
         session.getTransaction().commit();
     }
 
-    @BeforeClass
-    public static void beforeSetup() {
-        session = HibernateUtil.getSession();
-    }
-
     @After
     public void tearDown() throws Exception {
         targetObject = null;
-    }
-
-    @AfterClass
-    public static void destroy() {
-        if (!session.getTransaction().isActive()) {
+        if (!session.getTransaction().isActive() && em.isOpen()) {
+            em.getEntityManagerFactory().close();
+            em.close();
             session.getTransaction().begin();
         }
         session.createQuery("DELETE FROM Person").executeUpdate();
         session.getTransaction().commit();
-        session.getEntityManagerFactory().close();
-        session.close();
+        session.clear();
+    }
+
+    @AfterClass
+    public static void destroy() {
+        if (session.isOpen()) {
+            session.getEntityManagerFactory().close();
+            session.close();
+        }
     }
 
     @Test
@@ -74,8 +81,8 @@ public class PersonDaoImplTest {
         //when
         Person johnDoe = new Person(null, 30, "JOHN", "Doe");
         targetObject.create(johnDoe);
-        session.persist(johnDoe);
-        assertTrue(session.contains(johnDoe));
+//        session.persist(johnDoe);
+//        assertTrue(session.contains(johnDoe));
 //        for (long i = 1;; i++) {
 //            Object entity = getFromSession(i, Person.class, session);
 //            if (entity != null) {
@@ -90,7 +97,7 @@ public class PersonDaoImplTest {
         assertEquals(4L, actualSize);
     }
 
-    public static Object getFromSession(Serializable identifier, Class<?> clazz, Session s) {
+    private static Object getFromSession(Serializable identifier, Class<?> clazz, Session s) {
         String entityName = clazz.getName();
         if (identifier == null) {
             return null;
@@ -99,8 +106,7 @@ public class PersonDaoImplTest {
         EntityPersister entityPersister = sessionImpl.getFactory().getEntityPersister(entityName);
         PersistenceContext persistenceContext = sessionImpl.getPersistenceContext();
         EntityKey entityKey = new EntityKey(identifier, entityPersister);
-        Object entity = persistenceContext.getEntity(entityKey);
-        return entity;
+        return persistenceContext.getEntity(entityKey);
     }
 
     @Test
@@ -122,16 +128,15 @@ public class PersonDaoImplTest {
     @Test
     public void delete() {
         //given
-//        Person namelessPerson = new Person(3L, 20, "none", "none"); or string below
-        Person p = targetObject.findById(3L);
+        Person p = targetObject.findById(1L);
         long queryResult = (Long) session.createQuery("SELECT count(*) FROM Person").getSingleResult();
-        assertEquals(4L, queryResult);
+        assertEquals(3L, queryResult);
 
         //when
         targetObject.delete(p);
 
         //then
         long actualSize = (Long) session.createQuery("SELECT count(*) FROM Person").getSingleResult();
-        assertEquals(3L, actualSize);
+        assertEquals(2L, actualSize);
     }
 }

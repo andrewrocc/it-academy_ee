@@ -6,9 +6,9 @@ public interface PersonDaoSynchronize {
 
     void flushAndClearSession();
 
-    void synchronizeSessionWithDB(Object obj, LockMode lockMode);
+    void synchronizeSession(Object obj, LockMode lockMode);
 
     void flushAndClearEntityManager();
 
-    void synchronizeEntityManagerWithDB();
+    void synchronizeEntityManager();
 }
