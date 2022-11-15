@@ -1,8 +1,8 @@
 package by.it.tasks.practical_task_1.util;
 
-import org.junit.Test;
-import org.junit.After;
-import org.junit.Before;
+import by.it.util.HibernateUtil;
+import org.hibernate.Session;
+import org.junit.*;
 import by.it.pojos.Person;
 import by.it.tasks.practical_task_1.dao.PersonDaoImpl;
 
@@ -12,37 +12,47 @@ import javax.persistence.Persistence;
 
 import static org.junit.Assert.*;
 
+//@Ignore
 public class PersonDaoImplTest {
+
+    private static Session session;
 
     private static EntityManager em;
 
     PersonDaoImpl targetObject;
 
     @Before
-    public void setUp() throws Exception {
-        EntityManagerFactory emf = Persistence.createEntityManagerFactory( "by.it" );
+    public  void setUp() throws Exception {
+        session = HibernateUtil.getSession();
+        EntityManagerFactory emf = Persistence.createEntityManagerFactory("by.it");
         em = emf.createEntityManager();
-        em.getTransaction().begin();
-        targetObject = new PersonDaoImpl();
+        targetObject = new PersonDaoImpl(session);
 
+        fillDataToDB();
+    }
+
+    public static void fillDataToDB() {
         Person donaldTrump = new Person(null, 100, "Donald", "Trump");
         Person henryFord = new Person(null, 55, "Henry", "Ford");
         Person namelessPerson = new Person(null, 20, "none", "none");
-        em.persist(donaldTrump);
-        em.persist(henryFord);
-        em.persist(namelessPerson);
-        em.getTransaction().commit();
+        session.getTransaction().begin();
+        session.persist(donaldTrump);
+        session.persist(henryFord);
+        session.persist(namelessPerson);
+        session.getTransaction().commit();
     }
 
     @After
     public void tearDown() throws Exception {
-        if (!em.getTransaction().isActive()) {
-            em.getTransaction().begin();
+        if (!session.getTransaction().isActive() && em.isOpen()) {
+//            em.getEntityManagerFactory().close();
+//            em.close();
+            em.clear();
+            session.getTransaction().begin();
         }
-        em.createQuery("DELETE FROM Person").executeUpdate();
-        em.getTransaction().commit();
-        em.getEntityManagerFactory().close();
-        em.close();
+        session.createQuery("DELETE FROM Person").executeUpdate();
+        session.getTransaction().commit();
+        session.clear();
         targetObject = null;
     }
 
@@ -87,6 +97,6 @@ public class PersonDaoImplTest {
         Person actualPerson = targetObject.get(101L);
 
         //then
-        assertNotNull(actualPerson);
+        assertNull(actualPerson);
     }
 }

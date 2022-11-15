@@ -13,6 +13,10 @@ public class PersonDaoImpl implements PersonDao {
         session = HibernateUtil.getSession();
     }
 
+    public PersonDaoImpl(Session session) {
+        this.session = session;
+    }
+
     @Override
     public Person load(long id) {
         Transaction transaction = session.beginTransaction();

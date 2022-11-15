@@ -36,9 +36,9 @@ public class PersonDaoImplTest {
             em.getTransaction().begin();
         }
         em.createQuery("DELETE FROM Person").executeUpdate();
-        entityManagerDaoSynchronize.synchronizeEntityManager();
-        em.getEntityManagerFactory().close();
-        em.close();
+        em.getTransaction().commit();
+        em.clear();
+
         targetObject = null;
     }
 

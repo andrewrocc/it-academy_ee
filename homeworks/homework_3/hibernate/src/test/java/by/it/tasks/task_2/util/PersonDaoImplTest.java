@@ -9,7 +9,10 @@ import org.hibernate.engine.spi.EntityKey;
 import org.hibernate.engine.spi.PersistenceContext;
 import org.hibernate.engine.spi.SessionImplementor;
 import org.hibernate.persister.entity.EntityPersister;
-import org.junit.*;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.Test;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -18,7 +21,6 @@ import java.io.Serializable;
 import java.util.logging.Logger;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 public class PersonDaoImplTest {
 
@@ -63,14 +65,6 @@ public class PersonDaoImplTest {
         session.clear();
     }
 
-    @AfterClass
-    public static void destroy() {
-        if (session.isOpen()) {
-            session.getEntityManagerFactory().close();
-            session.close();
-        }
-    }
-
     @Test
     @SneakyThrows
     public void create() {
@@ -79,19 +73,11 @@ public class PersonDaoImplTest {
         assertEquals(3L, queryResult);
 
         //when
-        Person johnDoe = new Person(null, 30, "JOHN", "Doe");
+        Person johnDoe = new Person(null, 101, "JOHN", "Doe");
         targetObject.create(johnDoe);
-//        session.persist(johnDoe);
-//        assertTrue(session.contains(johnDoe));
-//        for (long i = 1;; i++) {
-//            Object entity = getFromSession(i, Person.class, session);
-//            if (entity != null) {
-//                log.info(entity.toString());
-//            } else {
-//                break;
-//            }
-//        }
 
+//        assertEquals("john", targetObject.findById(4L).getName());
+//        assertEquals("john", session.get(Person.class, 4L).getName());
         //then
         long actualSize = (Long) session.createQuery("SELECT count(*) FROM Person").getSingleResult();
         assertEquals(4L, actualSize);
