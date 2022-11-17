@@ -1,7 +1,7 @@
 package my.first.servlet;
 
 import my.first.model.ProductInfo;
-import service.SearchService;
+import my.first.service.SearchService;
 
 import java.util.List;
 import java.io.IOException;

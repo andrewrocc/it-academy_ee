@@ -6,7 +6,7 @@ import org.springframework.context.support.ClassPathXmlApplicationContext;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-public class PersonTest {
+public class PersonXmlTest {
 
     @Test
     public void testCreatePerson() {

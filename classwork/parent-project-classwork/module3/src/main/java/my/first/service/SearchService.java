@@ -1,12 +1,21 @@
-package service;
+package my.first.service;
 
 import my.first.model.ProductInfo;       // in pom.xml dependencies module1
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.stereotype.Service;
 
+import java.net.http.HttpClient;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
 
+@Service
 public class SearchService {
+
+    @Autowired
+    @Qualifier("simpleHttpClient")
+    private HttpClient httpClient;
 
     private static final List<ProductInfo> warehouse = new ArrayList<>(10);
 

@@ -1,5 +1,7 @@
 package service;
 
+import my.first.service.SearchService;
+
 import static org.junit.Assert.*;
 
 public class SearchServiceTest {
