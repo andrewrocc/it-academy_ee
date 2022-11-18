@@ -1,24 +1,19 @@
 package my.first.dao;
 
-import my.first.MysqlSessionFactory;
 import org.hibernate.Session;
 import my.first.model.Department;
 import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 
+@Repository
 public class DepartmentDaoImpl implements DepartmentDao {
 
-    private final SessionFactory sessionFactory;
-
-    public DepartmentDaoImpl() {
-        this(MysqlSessionFactory.getInstance());
-    }
-
-    public DepartmentDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public void create(Department dep) {

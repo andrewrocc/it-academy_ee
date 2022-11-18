@@ -3,21 +3,15 @@ package my.first.dao;
 import org.hibernate.Session;
 import my.first.model.Employee;
 import org.hibernate.Transaction;
-import my.first.MysqlSessionFactory;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public class EmployeeDaoImpl implements EmployeeDao {
 
-    private final SessionFactory sessionFactory;
-
-    public EmployeeDaoImpl() {
-        this(MysqlSessionFactory.getInstance());
-    }
-
-    public EmployeeDaoImpl(SessionFactory sessionFactory) {
-        this.sessionFactory = sessionFactory;
-    }
-
+    @Autowired
+    private SessionFactory sessionFactory;
 
     @Override
     public void create(Employee em) {

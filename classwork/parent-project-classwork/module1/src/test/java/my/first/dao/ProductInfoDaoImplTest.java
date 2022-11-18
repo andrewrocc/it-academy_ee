@@ -1,19 +1,16 @@
 package my.first.dao;
 
+import my.first.TestDataConfig;
 import org.junit.*;
 import lombok.SneakyThrows;
 import my.first.model.ProductInfo;
-import org.hibernate.boot.Metadata;
 import org.dbunit.dataset.IDataSet;
-import org.hibernate.SessionFactory;
-import my.first.MysqlJdbcDataSource;
-import org.hibernate.boot.MetadataSources;
-import org.dbunit.ext.mysql.MySqlConnection;
 import org.dbunit.operation.DatabaseOperation;
-import org.dbunit.database.IDatabaseConnection;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.junit.runner.RunWith;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.util.List;
 import java.sql.ResultSet;
@@ -21,36 +18,15 @@ import java.sql.Connection;
 
 import static org.junit.Assert.assertEquals;
 
-public class ProductInfoDaoImplTest {
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(classes = TestDataConfig.class)
+public class ProductInfoDaoImplTest extends BaseDaoTest {
 
-    static MysqlJdbcDataSource testMysqlJdbcDataSource;
-
-    static IDatabaseConnection iDatabaseConnection;
-
-    static SessionFactory testSessionFactory;
-
+    @Autowired
     ProductInfoDao targetObject;
-
-    @BeforeClass
-    @SneakyThrows
-    public static void init() {
-        testMysqlJdbcDataSource = new MysqlJdbcDataSource("eshop_test.jdbc.properties");
-        iDatabaseConnection = new MySqlConnection(testMysqlJdbcDataSource.getConnection(), "eshop_test");
-
-        StandardServiceRegistry standardRegistry = new StandardServiceRegistryBuilder()
-                .configure("hibernate_test.cfg.xml")
-                .build();
-        Metadata metadata = new MetadataSources( standardRegistry )
-                .addAnnotatedClass( ProductInfo.class )
-                .getMetadataBuilder()
-                .build();
-        testSessionFactory = metadata.getSessionFactoryBuilder()
-                .build();
-    }
 
     @Before
     public void setUp() throws Exception {
-        targetObject = new ProductInfoDaoImpl(testMysqlJdbcDataSource, testSessionFactory);
     }
 
     @After

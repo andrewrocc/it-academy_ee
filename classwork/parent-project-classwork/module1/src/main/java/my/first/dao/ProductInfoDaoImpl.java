@@ -5,7 +5,8 @@ import org.hibernate.Transaction;
 import my.first.model.ProductInfo;
 import org.hibernate.SessionFactory;
 import my.first.MysqlJdbcDataSource;
-import my.first.MysqlSessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import java.util.List;
 import java.sql.ResultSet;
@@ -14,20 +15,16 @@ import java.util.ArrayList;
 import java.sql.Connection;
 import java.sql.SQLException;
 
+@Repository
 public class ProductInfoDaoImpl implements ProductInfoDao {
 
     private final MysqlJdbcDataSource dataSource;
 
-    private final SessionFactory sessionFactory;
+    @Autowired
+    private SessionFactory sessionFactory;
 
-    public ProductInfoDaoImpl() throws ClassNotFoundException {
+    public ProductInfoDaoImpl() {
         this.dataSource = new MysqlJdbcDataSource();
-        this.sessionFactory = MysqlSessionFactory.getInstance();
-    }
-
-    public ProductInfoDaoImpl(MysqlJdbcDataSource dataSource, SessionFactory sessionFactory) {
-        this.dataSource = dataSource;
-        this.sessionFactory = sessionFactory;
     }
 
     // hibernate

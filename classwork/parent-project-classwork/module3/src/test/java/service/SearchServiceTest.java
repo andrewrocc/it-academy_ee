@@ -1,5 +1,6 @@
 package service;
 
+import my.first.dao.ProductInfoDaoImpl;
 import my.first.service.SearchService;
 
 import static org.junit.Assert.*;
@@ -10,7 +11,7 @@ public class SearchServiceTest {
 
     @org.junit.Before
     public void setUp() throws Exception {
-        targetObject = new SearchService();
+        targetObject = new SearchService(new ProductInfoDaoImpl());
     }
 
     @org.junit.After

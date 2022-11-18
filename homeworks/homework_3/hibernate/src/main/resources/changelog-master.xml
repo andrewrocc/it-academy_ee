@@ -25,6 +25,7 @@
             SIGNAL SQLSTATE '45000'
             SET MESSAGE_TEXT = 'Age of a person cannot be more than 100 years and less than 1 year';
             END IF;
+            //
         </sql>
     </changeSet>
 </databaseChangeLog>
