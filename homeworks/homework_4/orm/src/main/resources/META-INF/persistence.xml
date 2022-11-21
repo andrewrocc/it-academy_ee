@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<persistence version="2.0"
+             xmlns="http://java.sun.com/xml/ns/persistence"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://java.sun.com/xml/ns/persistence
+             http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd">
+    <persistence-unit name="by.it.model" transaction-type="RESOURCE_LOCAL">
+        <provider>org.hibernate.jpa.HibernatePersistenceProvider</provider>
+        <class>by.it.tasks.task_6.model.HILOGen</class>
+        <class>by.it.tasks.task_6.model.IdentityGen</class>
+        <class>by.it.tasks.task_6.model.NativeGen</class>
+        <class>by.it.tasks.task_6.model.UUIDGen</class>
+        <class>by.it.tasks.task_6.model.UUIDStringGen</class>
+        <class>by.it.tasks.task_6.model.IncrementGen</class>
+        <class>by.it.tasks.task_6.model.SequenceGen</class>
+        <class>by.it.tasks.task_6.model.SimpleClass</class>
+        <class>by.it.tasks.task_6.model.ForeignGen</class>
+        <class>by.it.tasks.task_6.model.AssignedGen</class>
+        <class>by.it.tasks.task_7.model.Person</class>
+        <class>by.it.tasks.task_7.model.Address</class>
+        <class>by.it.tasks.task_8.model.oneTable.PersonOneTable</class>
+        <class>by.it.tasks.task_8.model.perSubclass.PersonSubclass</class>
+        <class>by.it.tasks.task_8.model.perSubclass.StudentSubclass</class>
+        <class>by.it.tasks.task_8.model.perSubclass.EmployeeSubclass</class>
+        <class>by.it.tasks.task_8.model.perClass.PersonPerClass</class>
+        <class>by.it.tasks.task_8.model.perClass.EmployeePerClass</class>
+        <class>by.it.tasks.task_8.model.perClass.StudentPerClass</class>
+        <exclude-unlisted-classes>true</exclude-unlisted-classes>
+        <properties>
+            <property name="javax.persistence.jdbc.driver" value="com.mysql.cj.jdbc.Driver"/>
+            <property name="javax.persistence.jdbc.url" value="jdbc:mysql://localhost:3306/orm_db?createDatabaseIfNotExist=true&amp;serverTimezone=UTC"/>
+            <property name="javax.persistence.jdbc.user" value="root"/>
+            <property name="javax.persistence.jdbc.password" value="rootroot"/>
+            <property name="hibernate.dialect.storage_engine" value="MySQL8Dialect"/>
+            <property name="hibernate.dialect" value="org.hibernate.dialect.MySQL8Dialect"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
+            <property name="hibernate.use_sql_comments" value="true"/>
+            <property name="hibernate.show_sql" value="true"/>
+            <property name="hibernate.connection.pool_size" value="10"/>
+        </properties>
+    </persistence-unit>
+</persistence>
