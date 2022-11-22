@@ -1,7 +1,7 @@
 package my.first.dao;
 
 import lombok.SneakyThrows;
-import my.first.TestDataConfig;
+import my.first.DataConfig;
 import my.first.model.Meeting;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -20,7 +20,6 @@ import java.util.List;
 import static org.junit.Assert.*;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestDataConfig.class)
 public class MeetingDaoImplTest extends BaseDaoTest {
 
     @Autowired

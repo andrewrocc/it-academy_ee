@@ -1,6 +1,6 @@
 package my.first.dao;
 
-import my.first.TestDataConfig;
+import my.first.DataConfig;
 import org.junit.*;
 import lombok.SneakyThrows;
 import my.first.model.ProductInfo;
@@ -19,7 +19,6 @@ import java.sql.Connection;
 import static org.junit.Assert.assertEquals;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestDataConfig.class)
 public class ProductInfoDaoImplTest extends BaseDaoTest {
 
     @Autowired

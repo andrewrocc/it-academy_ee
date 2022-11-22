@@ -1,5 +1,6 @@
 package my.first.servlet;
 
+import my.first.dao.ProductInfoDaoImpl;
 import my.first.model.ProductInfo;
 import my.first.service.SearchService;
 
@@ -20,7 +21,7 @@ public class SearchServlet extends HttpServlet {
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);
-        searchService = new SearchService();
+        searchService = new SearchService(new ProductInfoDaoImpl());
     }
 
     @Override
@@ -28,7 +29,7 @@ public class SearchServlet extends HttpServlet {
         // read input from HTTP request
         final String pname = req.getParameter("pname");
         // handle inout data with business service
-        final List<ProductInfo> searchResult = searchService.searchProduct(pname);
+        final List<ProductInfo> searchResult = searchService.search(pname);
         // save output for view/UI (JSP)
         req.setAttribute("searchResult", searchResult);
 

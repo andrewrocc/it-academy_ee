@@ -1,7 +1,7 @@
 package my.first.dao;
 
 import lombok.SneakyThrows;
-import my.first.TestDataConfig;
+import my.first.DataConfig;
 import my.first.model.Department;
 import my.first.model.Employee;
 import my.first.model.EmployeeDetail;
@@ -23,7 +23,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = TestDataConfig.class)
 public class EmployeeDaoImplTest extends BaseDaoTest {
 
     @Autowired
