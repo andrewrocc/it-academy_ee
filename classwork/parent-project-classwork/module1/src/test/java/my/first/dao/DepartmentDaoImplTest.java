@@ -24,7 +24,7 @@ import static org.junit.Assert.assertEquals;
 public class DepartmentDaoImplTest extends BaseDaoTest {
 
     @Autowired
-    DepartmentDaoImpl targetObject;
+    DepartmentDao targetObject;
 
     @Before
     public void setUp() throws Exception { }

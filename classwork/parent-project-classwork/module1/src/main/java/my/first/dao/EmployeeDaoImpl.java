@@ -1,34 +1,31 @@
 package my.first.dao;
 
-import org.hibernate.Session;
 import my.first.model.Employee;
-import org.hibernate.Transaction;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 @Repository
+@Transactional
 public class EmployeeDaoImpl implements EmployeeDao {
 
     @Autowired
     private SessionFactory sessionFactory;
 
+//    @Autowired
+//    public EmployeeDaoImpl(SessionFactory sessionFactory) {
+//        this.sessionFactory = sessionFactory;
+//    }
+
     @Override
     public void create(Employee em) {
-        Transaction tr = null;
-        try (Session sess = sessionFactory.openSession()) {
-            tr = sess.beginTransaction();
-            sess.saveOrUpdate(em);
-            tr.commit();
-        } catch (Exception ex) {
-            if (tr != null) tr.rollback();
-            throw ex;
-        }
+        sessionFactory.getCurrentSession().saveOrUpdate(em);
     }
 
     @Override
     public Employee findById(long id) {
-        return sessionFactory.openSession().get(Employee.class, id);
+        return sessionFactory.getCurrentSession().get(Employee.class, id);
     }
 
     @Override
@@ -38,15 +35,7 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Override
     public void delete(Employee em) {
-        Transaction tr = null;
-        try (Session sess = sessionFactory.openSession()) {
-            tr = sess.beginTransaction();
-            Employee loadedEmployee = sess.load(Employee.class, em.getId());
-            sess.delete(loadedEmployee);
-            tr.commit();
-        } catch (Exception ex) {
-            if (tr != null) tr.rollback();
-            throw ex;
-        }
+        Employee loadedEmployee = sessionFactory.getCurrentSession().load(Employee.class, em.getId());
+        sessionFactory.getCurrentSession().delete(loadedEmployee);
     }
 }
