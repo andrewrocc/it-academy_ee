@@ -85,7 +85,8 @@ public class DataConfig {
                 Employee.class,
                 EmployeeDetail.class,
                 Department.class,
-                Meeting.class
+                Meeting.class,
+                Counter.class
         );
         sessionFactory.setHibernateProperties(hibernateProperties);
         return sessionFactory;

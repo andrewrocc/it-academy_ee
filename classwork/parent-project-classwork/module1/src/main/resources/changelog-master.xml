@@ -90,4 +90,13 @@
         </sql>
     </changeSet>
 
+    <changeSet id="7" author="andrewrocc">
+        <sql>
+            CREATE TABLE IF NOT EXISTS Counter (
+                id BIGINT(19) UNSIGNED PRIMARY KEY NOT NULL,
+                count INT NOT NULL
+            );
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
