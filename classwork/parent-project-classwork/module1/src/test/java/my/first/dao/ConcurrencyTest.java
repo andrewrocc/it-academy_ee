@@ -48,9 +48,8 @@ public class ConcurrencyTest extends BaseDaoTest {
         //When
         for (int i = 0; i < 100; i++) {
             new Thread(() -> targetObject.updateCount()).start();
-            Thread.sleep(150, 2900);
         }
-//		Thread.sleep(5000);
+		Thread.sleep(5000);
 
         //Then
         rs = conn.createStatement().executeQuery("select count from Counter where id=0;");
