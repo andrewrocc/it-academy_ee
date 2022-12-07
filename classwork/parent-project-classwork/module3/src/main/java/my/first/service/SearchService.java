@@ -1,7 +1,6 @@
 package my.first.service;
 
 import my.first.dao.ProductInfoDao;
-import my.first.dao.ProductInfoDaoImpl;
 import my.first.model.ProductInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -21,10 +20,7 @@ public class SearchService {
     @Qualifier("simpleHttpClient")
     private HttpClient httpClient;
 
-    public SearchService() throws ClassNotFoundException {
-        this(new ProductInfoDaoImpl());
-    }
-
+    @Autowired
     public SearchService(ProductInfoDao productInfoDao) {
         this.productInfoDao = productInfoDao;
     }

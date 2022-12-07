@@ -6,9 +6,22 @@ import java.sql.Connection;
 import java.util.Properties;
 import java.sql.DriverManager;
 
-import static my.first.DataConfig.JDBC_PROPERTIES_FILE_NAME;
-
 public class MysqlJdbcDataSource {
+
+    public static final String JDBC_PROPERTIES_FILE_NAME = "eshop.jdbc.properties";
+
+    private static Properties jdbcProperties;
+
+    @SneakyThrows
+    public static Properties getJdbcProperties(String propertyFileName) {
+        if (jdbcProperties == null) {
+            jdbcProperties = new Properties();
+            jdbcProperties.load(MysqlJdbcDataSource.class
+                    .getClassLoader()
+                    .getResourceAsStream(propertyFileName));
+        }
+        return jdbcProperties;
+    }
 
     private final String propertyFileName;
 
@@ -20,12 +33,12 @@ public class MysqlJdbcDataSource {
     @SneakyThrows
     public MysqlJdbcDataSource(String propertyFileName) {
         this.propertyFileName = propertyFileName;
-        Class.forName(DataConfig.getJdbcProperties(propertyFileName).getProperty("driver"));
+        Class.forName(getJdbcProperties(propertyFileName).getProperty("driver"));
     }
 
     @SneakyThrows
     public Connection getConnection() {
-        Properties jdbcProperties = DataConfig.getJdbcProperties(propertyFileName);
+        Properties jdbcProperties = getJdbcProperties(propertyFileName);
         return DriverManager.getConnection(
                 jdbcProperties.getProperty("url"),
                 jdbcProperties.getProperty("username"),

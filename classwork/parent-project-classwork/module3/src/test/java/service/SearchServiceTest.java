@@ -1,54 +1,102 @@
 package service;
 
-import my.first.dao.ProductInfoDaoImpl;
+import my.first.dao.ProductInfoDao;
+import my.first.model.ProductInfo;
 import my.first.service.SearchService;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.junit.Test;
+import org.mockito.Mock;
+import org.mockito.Mockito;
+import org.mockito.MockitoAnnotations;
 
-import static org.junit.Assert.*;
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.junit.Assert.assertEquals;
 
 public class SearchServiceTest {
 
-    SearchService targetObject;
+    private static List<ProductInfo> warehouse;
 
-    @org.junit.Before
-    public void setUp() throws Exception {
-        targetObject = new SearchService(new ProductInfoDaoImpl());
+    @BeforeClass
+    public static void init() {
+        warehouse = new ArrayList<>(10);
+        warehouse.add(getInstance(1, "Coffee Black", 3.5));
+        warehouse.add(getInstance(2, "Coffee Espresso", 2.9));
+        warehouse.add(getInstance(3, "Coffee Latte", 4.0));
+        warehouse.add(getInstance(4, "Coffee Latte Big", 4.5));
+        warehouse.add(getInstance(5, "Black Tea", 2.5));
+        warehouse.add(getInstance(6, "Green Tea", 2.5));
+        warehouse.add(getInstance(7, "Water Still", 1.5));
+        warehouse.add(getInstance(8, "Water Sparkling", 1.5));
+        warehouse.add(getInstance(9, "Coca Cola", 2.0));
+        warehouse.add(getInstance(10, "Pepsi Cola", 2.0));
     }
 
-    @org.junit.After
-    public void tearDown() throws Exception {
+    private static ProductInfo getInstance(int id, String name, double price) {
+        ProductInfo productInfo = new ProductInfo();
+        productInfo.setId(id);
+        productInfo.setName(name);
+        productInfo.setPrice(price);
+        return productInfo;
+    }
+
+    @Mock
+    ProductInfoDao productInfoDao;
+
+    SearchService targetObject;
+
+    @Before
+    public void setUp() {
+        MockitoAnnotations.openMocks(this);
+        targetObject = new SearchService(productInfoDao);
+    }
+
+    @After
+    public void tearDown() {
         targetObject = null;
     }
 
-    @org.junit.Test
-    public void searchProduct() {
-        // given
+    @Test
+    public void search() {
+        //Given
+        Mockito.when(productInfoDao.readAll()).thenReturn(warehouse);
         String searchPattern = "coffee";
-        //when
-        int result = targetObject.searchProduct(searchPattern).size();
-        //then
+
+        //When
+        int actualResult = targetObject.search(searchPattern).size();
+
+        //Then
         int expectedResult = 4;
-        assertEquals(expectedResult, result);
+        assertEquals(expectedResult, actualResult);
     }
 
-    @org.junit.Test
-    public void searchEmptyProduct() {
-        // given
+    @Test
+    public void searchEmptyResult() {
+        //Given
+        Mockito.when(productInfoDao.readAll()).thenReturn(warehouse);
         String searchPattern = "vodka";
-        //when
-        int result = targetObject.searchProduct(searchPattern).size();
-        //then
+
+        //When
+        int actualResult = targetObject.search(searchPattern).size();
+
+        //Then
         int expectedResult = 0;
-        assertEquals(expectedResult, result);
+        assertEquals(expectedResult, actualResult);
     }
 
-    @org.junit.Test
-    public void searchNullPattern() {
-        // given
-        String searchPattern = null;
-        //when
-        int result = targetObject.searchProduct(searchPattern).size();
-        //then
+    @Test
+    public void searchNullPatter() {
+        //Given
+        Mockito.when(productInfoDao.readAll()).thenReturn(warehouse);
+
+        //When
+        int actualResult = targetObject.search(null).size();
+
+        //Then
         int expectedResult = 0;
-        assertEquals(expectedResult, result);
+        assertEquals(expectedResult, actualResult);
     }
 }

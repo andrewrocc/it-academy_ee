@@ -14,6 +14,7 @@ import java.time.temporal.ChronoUnit;
 public class ServiceContextConfiguration {
 
     @Bean(name = "httpClientTimeOut")
+    @Primary
     public HttpClient getHttpClient() {
         return HttpClient
                 .newBuilder()

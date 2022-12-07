@@ -1,7 +1,6 @@
 package my.first.dao;
 
 import lombok.SneakyThrows;
-import my.first.DataConfig;
 import my.first.model.Department;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -11,7 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import java.sql.Connection;
@@ -27,7 +25,7 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     DepartmentDao targetObject;
 
     @Before
-    public void setUp() throws Exception { }
+    public void setUp() { }
 
     @After
     @SneakyThrows
@@ -74,14 +72,15 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
         //then
         assertEquals(1, departmentNames.size());
         assertEquals("Hidden", departmentNames.get(0));
-        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
+//        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
     @Test
     @SneakyThrows
     public void findById() {
         //given
-        IDataSet dataSet = new FlatXmlDataSetBuilder().build(DepartmentDaoImpl.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+        IDataSet dataSet = new FlatXmlDataSetBuilder()
+                .build(EmployeeDaoImplTest.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
 
         //when
@@ -89,7 +88,7 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
 
         //then
         assertEquals(1, department.getId());
-        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
+//        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
     @Test

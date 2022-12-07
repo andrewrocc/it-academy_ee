@@ -3,6 +3,7 @@ package my.first.dao;
 import lombok.SneakyThrows;
 import org.junit.After;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -46,15 +47,15 @@ public class ConcurrencyTest extends BaseDaoTest {
         assertEquals(0, initialCount);
 
         //When
-        for (int i = 0; i < 100; i++) {
+        for (int i = 0; i < 10; i++) {
             new Thread(() -> targetObject.updateCount()).start();
         }
-		Thread.sleep(5000);
+		Thread.sleep(2000);
 
         //Then
         rs = conn.createStatement().executeQuery("select count from Counter where id=0;");
         rs.next();
         initialCount = rs.getInt(1);
-        assertEquals(100, initialCount);
+        assertEquals(10, initialCount);
     }
 }

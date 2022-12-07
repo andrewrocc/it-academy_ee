@@ -18,6 +18,10 @@ public class SearchServlet extends HttpServlet {
 
     private SearchService searchService;
 
+    public void setSearchService(SearchService searchService) {
+        this.searchService = searchService;
+    }
+
     @Override
     public void init(ServletConfig config) throws ServletException {
         super.init(config);

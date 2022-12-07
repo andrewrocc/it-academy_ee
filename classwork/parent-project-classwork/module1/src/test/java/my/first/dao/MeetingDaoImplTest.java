@@ -25,11 +25,11 @@ public class MeetingDaoImplTest extends BaseDaoTest {
     MeetingDao targetObject;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
-    public void tearDown() throws Exception {
+    public void tearDown() {
         targetObject = null;
     }
 
@@ -51,5 +51,6 @@ public class MeetingDaoImplTest extends BaseDaoTest {
         for (var e : meetingList) {
             assertTrue(e.getEmployees().size() > 0);
         }
+        DatabaseOperation.DELETE_ALL.execute(iDatabaseConnection, meetingDataSet);
     }
 }

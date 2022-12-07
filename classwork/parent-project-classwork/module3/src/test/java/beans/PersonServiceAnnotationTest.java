@@ -10,8 +10,7 @@ public class PersonServiceAnnotationTest {
     @Test
     public void testSpringAnnotation() {
         AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext(PersonService.class);
-        String[] beanDefinitionNames = context.getBeanDefinitionNames();
-        Arrays.stream(beanDefinitionNames).forEach(System.out::println);
+        Arrays.stream(context.getBeanDefinitionNames()).forEach(System.out::println);
         PersonService person = context.getBean(PersonService.class);
         PersonService person1 = context.getBean(PersonService.class);
         System.out.println(person);

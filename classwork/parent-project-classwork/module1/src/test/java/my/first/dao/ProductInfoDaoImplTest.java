@@ -1,20 +1,20 @@
 package my.first.dao;
 
-import my.first.DataConfig;
-import org.junit.*;
 import lombok.SneakyThrows;
 import my.first.model.ProductInfo;
 import org.dbunit.dataset.IDataSet;
-import org.dbunit.operation.DatabaseOperation;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
+import org.dbunit.operation.DatabaseOperation;
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import java.util.List;
-import java.sql.ResultSet;
 import java.sql.Connection;
+import java.sql.ResultSet;
+import java.util.List;
 
 import static org.junit.Assert.assertEquals;
 
@@ -25,7 +25,7 @@ public class ProductInfoDaoImplTest extends BaseDaoTest {
     ProductInfoDao targetObject;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
     }
 
     @After
@@ -73,13 +73,5 @@ public class ProductInfoDaoImplTest extends BaseDaoTest {
         //then
         assertEquals(productInfo.size(), 10);
         DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
-    }
-
-    @Test
-    public void update() {
-    }
-
-    @Test
-    public void delete() {
     }
 }

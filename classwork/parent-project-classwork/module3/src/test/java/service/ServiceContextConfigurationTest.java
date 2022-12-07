@@ -1,5 +1,6 @@
 package service;
 
+import my.first.DataConfig;
 import my.first.service.SearchService;
 import my.first.service.ServiceContextConfiguration;
 import org.junit.Test;
@@ -14,7 +15,7 @@ import java.net.http.HttpClient;
 import static org.junit.Assert.assertNotNull;
 
 @RunWith(SpringJUnit4ClassRunner.class)
-@ContextConfiguration(classes = ServiceContextConfiguration.class)
+@ContextConfiguration(classes = { ServiceContextConfiguration.class, DataConfig.class})
 public class ServiceContextConfigurationTest {
 
     @Autowired
