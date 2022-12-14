@@ -20,7 +20,7 @@ public class WebConfiguration {
     @Bean(name = "multipartResolver")
     public CommonsMultipartResolver multipartResolver() {
         CommonsMultipartResolver multipartResolver = new CommonsMultipartResolver();
-        multipartResolver.setMaxUploadSize(100_000_000);
+        multipartResolver.setMaxUploadSize(5_000_000);
         return multipartResolver;
     }
 }

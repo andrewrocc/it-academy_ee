@@ -21,10 +21,10 @@ import java.util.Map;
 public class AddEmployeeController {
 
     @Autowired
-    EmployeeService employeeService;
+    private EmployeeService employeeService;
 
     @Autowired
-    DepartmentService departmentService;
+    private DepartmentService departmentService;
 
     @GetMapping("/add-employee.html")
     public ModelAndView showAddEmployeePage() {
@@ -33,12 +33,12 @@ public class AddEmployeeController {
                 Map.of("departments", departments));
     }
 
-    @PostMapping("/add-employee.html")
     @SneakyThrows
-    public String addEmployee(/*@RequestParam("photo") MultipartFile file,*/ Employee employee) {
-        System.out.println("Call addEployee: " + employee);
-//        System.out.println(file.getOriginalFilename() + ": " + file.getSize());
-        employeeService.add(employee/*, file.getBytes()*/);
+    @PostMapping("/add-employee.html")
+    public String addEmployee(@RequestParam("photo") MultipartFile file, Employee employee) {
+        System.out.println("Call addEmployee: " + employee);
+        System.out.println(file.getOriginalFilename() + ": " + file.getSize());
+        employeeService.add(employee, file.getBytes());
         return "redirect:/employee-list.html";
     }
 }

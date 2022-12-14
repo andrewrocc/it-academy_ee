@@ -1,14 +1,11 @@
 package my.first.model;
 
-import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.ToString;
 
 import java.sql.Date;
-import java.util.HashSet;
 import java.util.Set;
-import java.util.TreeSet;
 import javax.persistence.*;
 
 @Getter
@@ -59,6 +56,6 @@ public class Employee {
     @ToString.Exclude
     private Set<Meeting> meetings;
 
-//    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
-//    private EmployeePhoto photo;
+    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+    private EmployeePhoto employeePhoto;
 }

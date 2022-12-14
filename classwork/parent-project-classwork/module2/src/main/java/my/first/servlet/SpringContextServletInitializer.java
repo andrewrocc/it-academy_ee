@@ -23,5 +23,6 @@ public class SpringContextServletInitializer implements ServletContainerInitiali
         final ServletRegistration.Dynamic registration = ctx.addServlet("dispatcherServlet", dispatcherServlet);
         registration.setLoadOnStartup(1);
         registration.addMapping("*.html");
+        registration.addMapping("*.jpg");
     }
 }

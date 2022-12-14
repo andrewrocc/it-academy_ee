@@ -2,29 +2,28 @@ package my.first.model;
 
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-import org.hibernate.annotations.Type;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.UUID;
 
+@Entity
 @Getter
 @Setter
-@Entity
-@ToString
 @Table(name = "t_employee_photo")
 public class EmployeePhoto {
 
     @Id
     @Column(name = "ID")
-    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "employee_photo_seq")
-    @SequenceGenerator(name = "employee_photo_seq", sequenceName = "t_employee_photo_seq")
-    private long id;
+    @GeneratedValue(generator = "uuid")
+    @GenericGenerator(name = "uuid", strategy = "uuid2")
+    private String id;
 
     @OneToOne
     @JoinColumn(name = "EMPLOYEE_ID")
     private Employee employee;
 
     @Lob
-    @Column(name = "EMPLOYEE_PHOTO", columnDefinition = "BLOB NOT NULL")
+    @Column(name = "EMPLOYEE_PHOTO", columnDefinition = "MEDIUMBLOB NOT NULL")
     private byte[] photo;
 }

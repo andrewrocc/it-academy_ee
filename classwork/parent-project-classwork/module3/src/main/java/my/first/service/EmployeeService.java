@@ -17,23 +17,26 @@ public class EmployeeService {
     EmployeeDao employeeDao;
 
     @Transactional
-    public void add(Employee e/*, byte[] photo*/) {
+    public void add(Employee e, byte[] photo) {
         EmployeeDetail employeeDetail = e.getEmployeeDetail();
         if (employeeDetail.getEmployee() == null) {
             e.getEmployeeDetail().setEmployee(e);
         }
-//        if (e.getPhoto() == null) {
-//            EmployeePhoto employeePhoto = new EmployeePhoto();
-//            employeePhoto.setPhoto(new byte[photo.length]);
-//            employeePhoto.setPhoto(photo);
-//            employeePhoto.setEmployee(e);
-//            e.setPhoto(employeePhoto);
-//        }
+        if (e.getEmployeePhoto() == null) {
+            EmployeePhoto employeePhoto = new EmployeePhoto();
+            employeePhoto.setPhoto(photo);
+            employeePhoto.setEmployee(e);
+            e.setEmployeePhoto(employeePhoto);
+        }
 
         employeeDao.create(e);
     }
 
     public List<Employee> getAll() {
         return employeeDao.findAll();
+    }
+
+    public Employee getById(long id) {
+        return employeeDao.findById(id);
     }
 }
