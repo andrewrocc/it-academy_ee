@@ -10,11 +10,13 @@ public interface DepartmentDao {
 
     Department findById(long id);
 
-    List<String> findByAllDepartmentNames();
-
     void update(Department dep);
 
     void delete(long id);
 
     void delete(Department dep);
+
+    List<Department> findAll();
+
+    List<String> findAllDepartmentNames();
 }

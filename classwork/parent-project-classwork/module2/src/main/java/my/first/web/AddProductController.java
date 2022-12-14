@@ -14,15 +14,14 @@ public class AddProductController {
     private ProductService productService;
 
     @GetMapping("/add-product.html")
-    public String getProductForm() {
+    public String showAddProductPage() {
         return "add_product";
     }
 
-
     @PostMapping("/add-product.html")
-    public String addProduct(ProductInfo product) {
-        System.out.println(product);
-        productService.addNewProduct(product);
+    public String addProduct(ProductInfo productInfo) {
+        System.out.println(productInfo);
+        productService.addNewProduct(productInfo);
         return "redirect:/index.html";
     }
 }

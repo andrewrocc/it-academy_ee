@@ -20,11 +20,11 @@ public class Employee {
 
     //resolve null pointer ex in case submit on html form
     public Employee() {
-        if (employeeDetail == null) {
-            setEmployeeDetail(new EmployeeDetail());
-        }
-        getEmployeeDetail().setEmployee(this);
-        setMeetings(new HashSet<>());
+//        if (employeeDetail == null) {
+//            setEmployeeDetail(new EmployeeDetail());
+//        }
+//        getEmployeeDetail().setEmployee(this);
+//        setMeetings(new HashSet<>());
     }
 
     @Id
@@ -58,4 +58,7 @@ public class Employee {
             inverseJoinColumns = @JoinColumn(name = "F_MEETING_ID"))
     @ToString.Exclude
     private Set<Meeting> meetings;
+
+//    @OneToOne(mappedBy = "employee", cascade = CascadeType.ALL)
+//    private EmployeePhoto photo;
 }

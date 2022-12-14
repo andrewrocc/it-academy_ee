@@ -1,5 +1,6 @@
-package my.first.dao;
+package my.first.dao.impl;
 
+import my.first.dao.CounterDao;
 import my.first.model.Counter;
 import org.hibernate.LockMode;
 import org.hibernate.SessionFactory;
@@ -12,15 +13,11 @@ public class CounterDaoImpl implements CounterDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-    public void create(Counter c) {
-        sessionFactory.getCurrentSession().saveOrUpdate(c);
-    }
-
-    public Counter findById(long id) {
+    public Counter read(long id) {
         return sessionFactory.getCurrentSession().load(Counter.class, id, LockMode.PESSIMISTIC_WRITE);
     }
 
     public void update(Counter c) {
-        create(c);
+        sessionFactory.getCurrentSession().saveOrUpdate(c);
     }
 }

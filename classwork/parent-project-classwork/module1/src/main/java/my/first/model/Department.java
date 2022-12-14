@@ -1,13 +1,18 @@
 package my.first.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Set;
 
-@Data
+@Getter
+@Setter
 @Entity
+@ToString
 @Table(name = "t_department")
 public class Department {
 
@@ -21,5 +26,6 @@ public class Department {
     private String departmentName;
 
     @OneToMany(mappedBy = "department", cascade = CascadeType.ALL)
+    @ToString.Exclude
     private Set<Employee> employees;
 }

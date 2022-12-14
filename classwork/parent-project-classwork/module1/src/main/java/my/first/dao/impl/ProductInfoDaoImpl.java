@@ -1,6 +1,7 @@
-package my.first.dao;
+package my.first.dao.impl;
 
 import my.first.MysqlJdbcDataSource;
+import my.first.dao.ProductInfoDao;
 import my.first.model.ProductInfo;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -56,7 +57,7 @@ public class ProductInfoDaoImpl implements ProductInfoDao {
 
     @Override
     public void update(ProductInfo productInfo) {
-
+        create(productInfo);
     }
 
     @Override

@@ -1,12 +1,17 @@
 package my.first.model;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
+import lombok.ToString;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 
-@Data
+@Getter
+@Setter
 @Entity
+@ToString
 @Table(name = "t_employeedetail")
 public class EmployeeDetail {
 

@@ -1,9 +1,9 @@
 package my.first.dao;
 
 import lombok.SneakyThrows;
+import my.first.dao.impl.Concurrency;
 import org.junit.After;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

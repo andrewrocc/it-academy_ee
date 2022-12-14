@@ -1,5 +1,6 @@
-package my.first.dao;
+package my.first.dao.impl;
 
+import my.first.dao.MeetingDao;
 import my.first.model.Meeting;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -16,14 +17,8 @@ public class MeetingDaoImpl implements MeetingDao {
     @Autowired
     private SessionFactory sessionFactory;
 
-//    @Autowired
-//    public MeetingDaoImpl(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
-
     @Override
     public List<Meeting> findAll() {
-        List<Meeting> meetings = sessionFactory.getCurrentSession().createQuery("from Meeting", Meeting.class).list();
-        return meetings;
+        return sessionFactory.getCurrentSession().createQuery("from Meeting", Meeting.class).list();
     }
 }

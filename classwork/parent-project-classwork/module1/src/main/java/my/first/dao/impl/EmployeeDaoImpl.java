@@ -1,10 +1,13 @@
-package my.first.dao;
+package my.first.dao.impl;
 
+import my.first.dao.EmployeeDao;
 import my.first.model.Employee;
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
 
 @Repository
 @Transactional
@@ -12,11 +15,6 @@ public class EmployeeDaoImpl implements EmployeeDao {
 
     @Autowired
     private SessionFactory sessionFactory;
-
-//    @Autowired
-//    public EmployeeDaoImpl(SessionFactory sessionFactory) {
-//        this.sessionFactory = sessionFactory;
-//    }
 
     @Override
     public void create(Employee em) {
@@ -37,5 +35,10 @@ public class EmployeeDaoImpl implements EmployeeDao {
     public void delete(Employee em) {
         Employee loadedEmployee = sessionFactory.getCurrentSession().load(Employee.class, em.getId());
         sessionFactory.getCurrentSession().delete(loadedEmployee);
+    }
+
+    @Override
+    public List<Employee> findAll() {
+        return sessionFactory.getCurrentSession().createQuery("from Employee", Employee.class).list();
     }
 }

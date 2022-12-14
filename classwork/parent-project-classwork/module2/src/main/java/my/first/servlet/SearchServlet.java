@@ -1,6 +1,6 @@
 package my.first.servlet;
 
-import my.first.dao.ProductInfoDaoImpl;
+import my.first.dao.impl.ProductInfoDaoImpl;
 import my.first.model.ProductInfo;
 import my.first.service.SearchService;
 

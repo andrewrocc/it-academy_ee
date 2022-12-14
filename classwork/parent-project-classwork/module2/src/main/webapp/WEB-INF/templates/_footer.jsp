@@ -2,7 +2,7 @@
 <footer class="bg-light text-center text-lg-start align-items-center">
   <!-- Copyright -->
   <div class="text-center p-3" style="background-color: rgba(0, 0, 0, 0.2);">
-    © 2022 Copyright:
+    2022 Copyright:
     <a class="text-dark" href="https://www.it-academy.by/">www.it-academy.by</a>
   </div>
   <!-- Copyright -->

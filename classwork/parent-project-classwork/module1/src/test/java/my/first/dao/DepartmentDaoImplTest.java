@@ -1,6 +1,7 @@
 package my.first.dao;
 
 import lombok.SneakyThrows;
+import my.first.dao.impl.DepartmentDaoImpl;
 import my.first.model.Department;
 import org.dbunit.dataset.IDataSet;
 import org.dbunit.dataset.xml.FlatXmlDataSetBuilder;
@@ -61,18 +62,17 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     @Test
     @SneakyThrows
     public void findAllDepartmentNames() {
-        //given
+        //Given
         IDataSet dataSet = new FlatXmlDataSetBuilder()
-                .build(DepartmentDaoImpl.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
+                .build(DepartmentDaoImplTest.class.getResourceAsStream("DepartmentDaoImplTest.xml"));
         DatabaseOperation.CLEAN_INSERT.execute(iDatabaseConnection, dataSet);
 
-        //when
-        List<String> departmentNames = targetObject.findByAllDepartmentNames();
+        //When
+        List<String> departmentNames = targetObject.findAllDepartmentNames();
 
-        //then
+        //Then
         assertEquals(1, departmentNames.size());
         assertEquals("Hidden", departmentNames.get(0));
-//        DatabaseOperation.DELETE.execute(iDatabaseConnection, dataSet);
     }
 
     @Test
@@ -92,7 +92,6 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
     }
 
     @Test
-//    @Ignore
     @SneakyThrows
     public void delete() {
         //given
@@ -112,19 +111,3 @@ public class DepartmentDaoImplTest extends BaseDaoTest {
         assertEquals(0, actualSize);
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

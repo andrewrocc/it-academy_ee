@@ -15,9 +15,7 @@ import javax.persistence.Table;
 public class Counter {
 
     @Id
-//    @Column(name = "id")
     private long id;
 
-//    @Column(name = "count")
     private int count;
 }
