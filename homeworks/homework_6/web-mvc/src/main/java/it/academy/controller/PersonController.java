@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.util.List;
+
 @Controller
 public class PersonController {
 
@@ -21,12 +23,12 @@ public class PersonController {
 	}
 
 	@PostMapping(value = "/add_person")
-	public ModelAndView addNewPerson(Person p) {
+	public String addNewPerson(Person p) {
 		System.out.println("person post controller");
 		boolean success = service.addNewPerson(p);
-		System.out.println(service.getPeople());
-		ModelAndView view = new ModelAndView("add_person");
-		view.addObject("message", success ? "success" : "unsuccessful");
-		return view;
+//		System.out.println(service.getPeople());
+//		ModelAndView view = new ModelAndView("redirect:/person_list");
+//		view.addObject("message", success ? "success" : "unsuccessful");
+		return "redirect:/person_list";
 	}
 }

@@ -20,5 +20,9 @@
         <put-attribute name="content" value="/WEB-INF/jsp/content/add_person.jsp"/>
     </definition>
 
+    <definition name="person_list" extends="web-mvc.template">
+        <put-attribute name="title" value="person list"/>
+        <put-attribute name="content" value="/WEB-INF/jsp/content/person_list.jsp"/>
+    </definition>
 
 </tiles-definitions>
