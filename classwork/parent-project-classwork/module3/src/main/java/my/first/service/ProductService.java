@@ -6,6 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
+
 @Service
 public class ProductService {
 
@@ -16,5 +18,9 @@ public class ProductService {
     public void addNewProduct(ProductInfo product) {
         // TODO validation
         productDao.create(product);
+    }
+
+    public List<ProductInfo> getAll() {
+        return productDao.readAll();
     }
 }

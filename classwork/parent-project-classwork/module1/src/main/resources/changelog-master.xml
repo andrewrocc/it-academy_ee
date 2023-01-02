@@ -113,4 +113,19 @@
         </sql>
     </changeSet>
 
+    <changeSet id="9" author="andrewrocc">
+        <sql>
+            CREATE TABLE IF NOT EXISTS APP_USER (
+                ID VARCHAR(256) PRIMARY KEY NOT NULL,
+                USER_NAME VARCHAR(100) NOT NULL,
+                USER_PASSWORD VARCHAR(100),
+                USER_ROLE VARCHAR(100)
+            );
+
+            INSERT INTO APP_USER VALUES (
+                '10000000-0000-0000-0000-000000000001',
+                'root', '{noop}root', 'ADMIN');
+        </sql>
+    </changeSet>
+
 </databaseChangeLog>
